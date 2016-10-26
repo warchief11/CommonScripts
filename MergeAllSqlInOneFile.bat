@@ -33,12 +33,11 @@ GOTO:EOF
 REM Parameters required: Folder Name and files to search.
 :PROCESS_FILES
 cd ../%1
+echo Processing folder %1
 REM call PROCESS_FILES method recursively, and fix path after the call.
-for /d %%a  in (*) do cd %%a & call :PROCESS_FILES %%a %2 & cd ../
+for /d %%a  in (*) do cd %%a & call :PROCESS_FILES "%%a" %2 & cd ../
 REM call concat for all files in this folder, append script path (%%~dp0) before scriptpathname to handle nested paths
-for /f "delims=" %%a in ('dir /b /o:N %2 2^>nul') do call :CONCAT %%a "%~dp0%scriptpathname%"
-
-
+for /f "delims=" %%a in ('dir /b /o:N %2 2^>nul') do call :CONCAT "%%a" "%~dp0%scriptpathname%"
 GOTO:EOF
 
 :PROCESS_DIR
